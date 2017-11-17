@@ -16,13 +16,12 @@ public class UrlValidator implements ConstraintValidator<UrlStart, String> {
 	public boolean isValid(String theCode, 
 			ConstraintValidatorContext constraintValidatorContext) {
 		
-		boolean result = false;
+		boolean result = true;
 		
 		if (theCode != null) {
-			result = theCode.startsWith(urlPrefix);
-		}
-		else {
-			result = true;
+			if (theCode.startsWith(urlPrefix)) {
+				result = false;
+			}
 		}
 	
 		return result;

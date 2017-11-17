@@ -6,6 +6,12 @@ import javax.validation.constraints.Size;
 import com.shorturl.validation.UrlStart;
 
 public class User {
+	
+	public static final String URL = "jdbc:mysql://localhost:3306";
+    public static final String USER = "root";
+    public static final String PASSWORD = "fivepoint";
+    
+    
 
 	@UrlStart(value="www", message="must start with www")
 	@NotNull(message="is Required")
@@ -14,20 +20,20 @@ public class User {
 	
 	private String shortUrl;
 
-	public String getShortUrl() {
-		return shortUrl;
-	}
-
 	public void setShortUrl(String shortUrl) {
 		this.shortUrl = shortUrl;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getUrl() {
 		return url;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public String getShortUrl() {
+		return shortUrl;
 	}
-	
+
 }

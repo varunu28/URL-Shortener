@@ -10,7 +10,7 @@
 
 <body>
 
-The shortened URL is:  <a href="www.'$user.shortUrl'.com">www.${user.shortUrl}.com</a>
+The shortened URL is: <a href="$user.url">${ user.shortUrl}</a>
 
 <br><br>
 

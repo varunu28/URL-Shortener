@@ -53,6 +53,8 @@ public class UserController {
         stmt.executeUpdate(sql);
         
         String inpURL = user.getUrl();
+        
+        // System.out.println(inpURL);
 
         ResultSet rs=stmt.executeQuery("select COUNT(*) from urls WHERE originalUrl='" + 
         				inpURL + "'");
@@ -67,15 +69,17 @@ public class UserController {
                 id = Integer.parseInt(rs.getString(1));
             }
             
-            System.out.println(id);
+            // System.out.println(id);
 
             String shortenedURL = shortURL.idToShortURL(++id);
 
             sql = "INSERT INTO urls(originalUrl,shortenedUrl) VALUES('" + inpURL + "','" + 
             			shortenedURL + "')";
             stmt.executeUpdate(sql);
+            
+            user.setShortUrl(shortenedURL);
 
-            System.out.println("The shortened URL is: " + shortenedURL);
+            // System.out.println("The shortened URL is: " + shortenedURL);
             
             return "user-confirmation";
         }

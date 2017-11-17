@@ -10,7 +10,8 @@
 
 <body>
 
-A shortened URL for this already exists:  <a href="www.${user.shortUrl}.com">www.${user.shortUrl}.com</a>
+A shortened URL for this already exists: 
+ <a href="$user.url">${ user.shortUrl}</a>
 
 <br><br>
 
