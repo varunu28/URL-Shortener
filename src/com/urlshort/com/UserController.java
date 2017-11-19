@@ -7,12 +7,9 @@ import java.sql.Statement;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,7 +19,7 @@ public class UserController {
 	
 	public static final String URL = "jdbc:mysql://localhost:3306";
     public static final String USER = "root";
-    public static final String PASSWORD = "fivepoint";
+    public static final String PASSWORD = "********";
 
 	@RequestMapping("/showForm")
 	public String showForm(Model theModel) {
@@ -33,6 +30,10 @@ public class UserController {
 	@RequestMapping("/processForm")
 	public String showForm(@Valid @ModelAttribute("user") User user,
 							BindingResult bindingResult) throws Exception {
+		
+		if (bindingResult.hasErrors()) {
+            return "user-form";
+        }
 		
 		Class.forName("com.mysql.jdbc.Driver");
         Connection conn = null;
@@ -53,8 +54,6 @@ public class UserController {
         stmt.executeUpdate(sql);
         
         String inpURL = user.getUrl();
-        
-        // System.out.println(inpURL);
 
         ResultSet rs=stmt.executeQuery("select COUNT(*) from urls WHERE originalUrl='" + 
         				inpURL + "'");
@@ -68,18 +67,14 @@ public class UserController {
             if (rs.next()) {
                 id = Integer.parseInt(rs.getString(1));
             }
-            
-            // System.out.println(id);
 
-            String shortenedURL = shortURL.idToShortURL(++id);
+            String shortenedURL = "www." + shortURL.idToShortURL(++id) + ".com";
 
             sql = "INSERT INTO urls(originalUrl,shortenedUrl) VALUES('" + inpURL + "','" + 
             			shortenedURL + "')";
             stmt.executeUpdate(sql);
             
             user.setShortUrl(shortenedURL);
-
-            // System.out.println("The shortened URL is: " + shortenedURL);
             
             return "user-confirmation";
         }
@@ -88,13 +83,5 @@ public class UserController {
             
             return "form-already-exist";
         }
-	}
-	
-	@InitBinder
-	public void initBinder(WebDataBinder webDataBinder) {
-		
-		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
-		webDataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
-		
 	}
 }

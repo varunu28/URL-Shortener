@@ -3,7 +3,7 @@ package com.urlshort.com;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.shorturl.validation.UrlStart;
+import validator.UrlCheck;
 
 public class User {
 	
@@ -11,9 +11,7 @@ public class User {
     public static final String USER = "root";
     public static final String PASSWORD = "fivepoint";
     
-    
-
-	@UrlStart(value="www", message="must start with www")
+    @UrlCheck()
 	@NotNull(message="is Required")
 	@Size(min=9,message="Not a valid url")
 	private String url;

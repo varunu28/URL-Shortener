@@ -1,4 +1,4 @@
-package com.shorturl.validation;
+package validator;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,12 +11,12 @@ import javax.validation.Payload;
 @Constraint(validatedBy = UrlValidator.class)
 @Target( {ElementType.METHOD, ElementType.FIELD} )
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UrlStart {
+public @interface UrlCheck {
 
-	public String value() default "www";
+	public String startValue() default "https://";
 	
-	public String message() default "must start with www";
-	
+	public String startMessage() default "must start with https://";
+
 	public Class<?>[] groups() default {};
 	
 	public Class<? extends Payload>[] payload() default {};
